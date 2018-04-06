@@ -19,7 +19,10 @@ bot.on("message", async message => {
     let args = messageArray.slice(1);
 
     if (cmd === `${prefix}meigen`) {
-        return message.channel.send("空にある星がすべてと思う勿れ！");
+        const meigenCollection = require('./meigen.json');
+        let id = Math.floor(Math.random() * 5).toString();
+        let meigen = meigenCollection[id];
+        return message.channel.send(meigen.line);
     }
 
     if (cmd === `${prefix}botinfo`) {
