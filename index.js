@@ -8,7 +8,9 @@ const errorMsg = "It's so busy here...I need money for the Antarctica anyway!";
 
 bot.on("ready", async () => {
     console.log(`${bot.user.username} is online!`);
-    bot.user.setActivity("Crusader Kings II");
+    bot.user.setActivity('Customer\'s Complain in 7-11', { type: 'LISTENING' })
+    .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
+    .catch(console.error);
 });
 
 bot.on("message", async message => {
