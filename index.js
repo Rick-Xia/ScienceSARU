@@ -11,6 +11,8 @@ bot.on("ready", async () => {
     bot.user.setActivity('Customer\'s Complain in 7-11', { type: 'LISTENING' })
     .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
     .catch(console.error);
+    // may want to have a number of activities.
+    // and changes every now and then
 });
 
 bot.on("message", async message => {
