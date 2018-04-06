@@ -20,9 +20,17 @@ bot.on("message", async message => {
 
     if (cmd === `${prefix}meigen`) {
         const meigenCollection = require('./meigen.json');
+
         let id = Math.floor(Math.random() * 5).toString();
         let meigen = meigenCollection[id];
-        return message.channel.send(meigen.line);
+        let meigenembed = new Discord.RichEmbed()
+        .setDescription("名言" + meigen.id)
+        .setColor("#ff9933")
+        .setThumbnail(bot.user.displayAvatarURL)
+        .addField("Line", meigen.line)
+        .addField("Translation(CHN)", meigen.trans);
+
+        return message.channel.send(meigenembed);
     }
 
     if (cmd === `${prefix}botinfo`) {
@@ -30,7 +38,7 @@ bot.on("message", async message => {
 
         let botembed = new Discord.RichEmbed()
         .setDescription("Bot Information")
-        .setColor("#15f153")
+        .setColor("#ff9933")
         .setThumbnail(bicon)
         .addField("Bot Name", bot.user.username)
         .addField("Created On", bot.user.createdAt);
