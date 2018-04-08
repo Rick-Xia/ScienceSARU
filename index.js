@@ -25,6 +25,10 @@ bot.on("message", async message => {
     let args = messageArray.slice(1);
 
     if (cmd.charAt(0) === prefix) {
+
+        console.log("cmd= " + cmd);
+        console.log("args= " + args);
+
         let cmdContent = cmd.substring(1);
 
         if (cmdContent === `meigen`) {
@@ -41,6 +45,56 @@ bot.on("message", async message => {
 
             return message.channel.send(meigenembed);
         }
+        else if (cmdContent === "r6stats") {
+            const https = require('https');
+            let id = args[0];
+            let platform = "?platform=uplay";
+            var options = {
+                host: 'api.r6stats.com',
+                path: '/api/v1/players/',
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            options.path = options.path + id + platform;
+
+            var req = https.request(options, (res) => {
+                let data = '';
+
+                console.log(options.host + ':' + res.statusCode);
+
+                // A chunk of data has been recieved.
+                res.on('data', (chunk) => {
+                  data += chunk;
+                });
+                 
+                // The whole response has been received. Print out the result.
+                res.on('end', () => {
+                    var obj = JSON.parse(data);
+                    let stats = obj.player.stats;
+                    let casual = stats.casual;
+                    let statembed = new Discord.RichEmbed()
+                    .setDescription("Casual stats")
+                    .addField("WIN/LOSE RATE", casual.wlr)
+                    .addField("KILL/DIE", casual.kd);
+                    message.author.send(statembed);
+                    message.channel.send("Just found yours~ Take a look at your PM");
+                    if ( casual.kd < 1.59 ) {
+                        message.channel.send("Your KDA is even lower than Macie Jay!");
+                    }
+                });
+            });
+
+            req.on('error', (err) => {
+                res.send('error: ' + err.message);
+            });
+
+            req.end();
+
+            return message.channel.send("I'm working hard on seraching");
+        }
         else if (cmdContent === `botinfo`) {
             let bicon = bot.user.displayAvatarURL;
 
@@ -54,7 +108,7 @@ bot.on("message", async message => {
             return message.channel.send(botembed);
         }
 
-        return message.channel.send(errorMsg + "\n(Bot didn't seem to understand your command)");
+        return message.channel.send(errorMsg + "\n\n(Bot didn't seem to understand your command)");
     }
 });
 

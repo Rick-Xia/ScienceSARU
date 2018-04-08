@@ -1,0 +1,48 @@
+{
+    "player": {
+        "username": "ARokujyou",
+        "platform": "uplay",
+        "ubisoft_id": "7ba3e538-c5b5-4cb0-b21f-9ad93a0f8798",
+        "indexed_at": "2018-04-07T20:21:25.226Z",
+        "updated_at": "2018-04-07T20:21:25.226Z",
+        "stats": {
+            "ranked": {
+                "has_played": false,
+                "wins": 0,
+                "losses": 0,
+                "wlr": 0,
+                "kills": 0,
+                "deaths": 0,
+                "kd": 0,
+                "playtime": 0
+            },
+            "casual": {
+                "has_played": true,
+                "wins": 184,
+                "losses": 182,
+                "wlr": 1.011,
+                "kills": 1092,
+                "deaths": 993,
+                "kd": 1.1,
+                "playtime": 325907
+            },
+            "overall": {
+                "revives": 42,
+                "suicides": 3,
+                "reinforcements_deployed": 1169,
+                "barricades_built": 129,
+                "steps_moved": 356147,
+                "bullets_fired": 0,
+                "bullets_hit": 8036,
+                "headshots": 384,
+                "melee_kills": 28,
+                "penetration_kills": 71,
+                "assists": 356
+            },
+            "progression": {
+                "level": 78,
+                "xp": 19555
+            }
+        }
+    }
+}
