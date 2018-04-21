@@ -49,5 +49,6 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-	name: "r6stats"
+	name: "r6stats",
+	cmd: "r6stats"
 }

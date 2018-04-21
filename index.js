@@ -4,6 +4,9 @@ const botconfig = require('./localdata/botconfig.json');
 
 const fs = require("fs");
 
+const errorMsg = "It's so busy here...I need money for the Antarctica anyway!";
+const prefix = botconfig.prefix;
+
 const bot = new Discord.Client({disableEveryone: true});
 bot.commands = new Discord.Collection();
 
@@ -22,9 +25,6 @@ fs.readdir("./cmd/", (err, files) => {
         bot.commands.set(props.help.name, props);
     });
 });
-
-const errorMsg = "It's so busy here...I need money for the Antarctica anyway!";
-const prefix = botconfig.prefix;
 
 bot.on("ready", async () => {
     console.log(`${bot.user.username} is online!`);
