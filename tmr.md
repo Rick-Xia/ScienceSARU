@@ -4,3 +4,6 @@ get inspired
 * prettify stats panel
 * improve more on stats
 * storing user's uplay id (default id)
+
+* cosplay nsfw (japanese)
+* video search
