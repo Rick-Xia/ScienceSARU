@@ -1,9 +1,12 @@
 const Discord = require("discord.js");
 const https = require('https');
 
+const DefaultPath = '/api/v1/players/';
+const platform = "?platform=uplay";
+
 var options = {
     host: 'api.r6stats.com',
-    path: '/api/v1/players/',
+    path: '',
     method: 'GET',
     headers: {
         'Content-Type': 'application/json'
@@ -12,13 +15,18 @@ var options = {
 
 module.exports.run = async (bot, message, args) => {
     let id = args[0];
-    let platform = "?platform=uplay";
-    options.path = options.path + id + platform;
+    options.path = DefaultPath + id + platform;
 
     var req = https.request(options, (res) => {
+        console.log(options.path);
+
         let data = '';
 
         console.log(options.host + ':' + res.statusCode);
+
+        if ( res.statusCode !== 200 ) {
+            return message.channel.send("No results found...");
+        }
 
         // A chunk of data has been recieved.
         res.on('data', (chunk) => {
