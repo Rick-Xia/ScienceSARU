@@ -45,7 +45,7 @@ module.exports.run = async (bot, message, args) => {
             let stats = player.stats;
             let casual = stats.casual;
             let statembed = new Discord.RichEmbed()
-            .setAuthor(`${player.username}@${player.platform}`)
+            .setAuthor(`${player.username}@${player.platform}`, "https://i.imgur.com/uwf9FpF.jpg")
             .setColor(0x00AE86)
             .setThumbnail(`https://ubisoft-avatars.akamaized.net/${player.ubisoft_id}/default_146_146.png`)
             .setDescription("Casual stats")
@@ -53,8 +53,12 @@ module.exports.run = async (bot, message, args) => {
             .addField("KILL/DIE", casual.kd)
             .setFooter(`Updated at: ${player.updated_at}`);
             
-            message.author.send(statembed);
-            message.channel.send("Just found yours~ Take a look at your PM");
+            if ( args[1] == "t" ) {
+                message.channel.send(statembed);
+            } else {
+                message.author.send(statembed);
+                message.channel.send("Just found yours~ Take a look at your PM");
+            }
         });
     });
 
