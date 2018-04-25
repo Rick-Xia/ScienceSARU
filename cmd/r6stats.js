@@ -49,11 +49,15 @@ module.exports.run = async (bot, message, args) => {
             .setColor(0x00AE86)
             .setThumbnail(`https://ubisoft-avatars.akamaized.net/${player.ubisoft_id}/default_146_146.png`)
             .setDescription("Casual stats")
-            .addField("WIN %", casual.wlr)
-            .addField("KILL/DIE", casual.kd)
-            .setFooter(`Updated at: ${player.updated_at}`);
+            .addField("WIN %", casual.wins/(casual.wins + casual.losses), true)
+            .addField("KILL/DIE", casual.kd, true)
+            .addField("KILL", casual.kills, true)
+            .addField("DEATH", casual.deaths, true)
+            .addField("Play Time", casual.playtime, true)
+            .setTimestamp(`${player.updated_at}`)
+            .setFooter("Recent update");
             
-            if ( args[1] == "t" ) {
+            if ( args[1] == "share" ) {
                 message.channel.send(statembed);
             } else {
                 message.author.send(statembed);
