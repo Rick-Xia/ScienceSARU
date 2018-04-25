@@ -57,7 +57,6 @@ module.exports.run = async (bot, message, args) => {
             .setAuthor(`${player.username}@${player.platform}`, "https://i.imgur.com/uwf9FpF.jpg")
             .setColor(0x00AE86)
             .setThumbnail(`https://ubisoft-avatars.akamaized.net/${player.ubisoft_id}/default_146_146.png`)
-            .setDescription("Casual stats")
             .addField("WIN %", casual.wins/(casual.wins + casual.losses), true)
             .addField("KILL/DIE", casual.kd, true)
             .addField("KILL", casual.kills, true)
@@ -66,7 +65,7 @@ module.exports.run = async (bot, message, args) => {
             .setTimestamp(`${player.updated_at}`)
             .setFooter("Recent update");
             
-            if ( args[1] === "share" ) {
+            if ( args[1] === "share" || args[1] === "s" ) {
                 message.channel.send(statembed);
             } else {
                 message.author.send(statembed)
