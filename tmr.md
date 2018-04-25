@@ -7,3 +7,6 @@ get inspired
 
 * cosplay nsfw (japanese)
 * video search
+
+* storing our meigen
+* daily annuncement
