@@ -57,11 +57,11 @@ module.exports.run = async (bot, message, args) => {
             .setTimestamp(`${player.updated_at}`)
             .setFooter("Recent update");
             
-            if ( args[1] == "share" ) {
+            if ( args[1] === "share" ) {
                 message.channel.send(statembed);
             } else {
-                message.author.send(statembed);
-                message.channel.send("Just found yours~ Take a look at your PM");
+                message.author.send(statembed)
+                .then(message.channel.send("Just found yours~ Take a look at your PM"));
             }
         });
     });

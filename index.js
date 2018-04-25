@@ -27,9 +27,9 @@ fs.readdir("./cmd/", (err, files) => {
 });
 
 bot.on("ready", async () => {
-    console.log(`${bot.user.username} is online!`);
+    console.log(`${bot.user.username} IS ONLINE!`);
     bot.user.setActivity('Customer\'s Complain in 7-11', { type: 'LISTENING' })
-    .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
+    //.then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
     .catch(console.error);
     // may want to have a number of activities.
     // and changes every now and then
