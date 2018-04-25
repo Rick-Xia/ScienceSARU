@@ -45,11 +45,13 @@ module.exports.run = async (bot, message, args) => {
             let stats = player.stats;
             let casual = stats.casual;
             let statembed = new Discord.RichEmbed()
-            .setDescription("Casual stats")
+            .setAuthor(`${player.username}@${player.platform}`)
             .setColor(0x00AE86)
+            .setThumbnail(`https://ubisoft-avatars.akamaized.net/${player.ubisoft_id}/default_146_146.png`)
+            .setDescription("Casual stats")
             .addField("WIN %", casual.wlr)
             .addField("KILL/DIE", casual.kd)
-            .setFooter("Updated at: " + player.updated_at);
+            .setFooter(`Updated at: ${player.updated_at}`);
             
             message.author.send(statembed);
             message.channel.send("Just found yours~ Take a look at your PM");
