@@ -13,11 +13,20 @@ var options = {
     }
 };
 
+function secondsToHms(d) {
+    d = Number(d);
+
+    let h = Math.floor(d / 3600);
+    let m = Math.floor(d % 3600 / 60);
+    let s = Math.floor(d % 3600 % 60);
+
+    return `${h}h ${m}m ${s}s`;
+}
+
 module.exports.run = async (bot, message, args) => {
     if ( args.length == 0 ) {
-        message.channel.send("What's your ID?");
-        message.channel.send("(Use \"-r6stats yourID\" command)");
-        return;
+        return message.channel.send("What's your ID?")
+        .then(msg => msg.channel.send("(Please add your ID after the command)"));      
     }
 
     let id = args[0];
@@ -53,7 +62,7 @@ module.exports.run = async (bot, message, args) => {
             .addField("KILL/DIE", casual.kd, true)
             .addField("KILL", casual.kills, true)
             .addField("DEATH", casual.deaths, true)
-            .addField("Play Time", casual.playtime, true)
+            .addField("TIME PLAYED", secondsToHms(casual.playtime), true)
             .setTimestamp(`${player.updated_at}`)
             .setFooter("Recent update");
             
