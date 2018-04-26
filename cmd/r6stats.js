@@ -10,7 +10,8 @@ let OPTIONS = {
     path: '',
     method: 'GET',
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'User-Agent': 'ScienceSARU: a personal discord bot'
     }
 };
 
@@ -76,6 +77,7 @@ module.exports.run = async (bot, message, args) => {
             let stats = player.stats;
             let casual = stats.casual;
             let ranked = stats.ranked;
+
             let overallEmbed = new Discord.RichEmbed()
             .setAuthor(`${player.username}@${player.platform==="uplay"? "PC" : player.platform} - OVERALL STATS`, "https://i.imgur.com/uwf9FpF.jpg")
             .setColor(PANELCOLOR)
@@ -91,9 +93,9 @@ module.exports.run = async (bot, message, args) => {
             .setColor(PANELCOLOR)
             .setTimestamp(`${player.updated_at}`)
             .setFooter("Recent update");
-            collectStats(stats,"casual",detailEmbed);
-            collectStats(stats,"ranked",detailEmbed);
-            collectStats(stats,"overall",detailEmbed);
+            collectStats(stats, "casual", detailEmbed);
+            collectStats(stats, "ranked", detailEmbed);
+            collectStats(stats, "overall", detailEmbed);
             
             if ( args[1] === "share" || args[1] === "s" ) {
                 message.channel.send(overallEmbed);
