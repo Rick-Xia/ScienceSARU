@@ -5,7 +5,7 @@ const DEFAULTPATH = '/api/v1/players/';
 const PLATFORM = "/?platform=uplay";
 const PANELCOLOR = 0x00AE86;
 
-let options = {
+let OPTIONS = {
     host: 'api.r6stats.com',
     path: '',
     method: 'GET',
@@ -52,12 +52,12 @@ module.exports.run = async (bot, message, args) => {
     }
 
     let id = args[0];
-    options.path = DEFAULTPATH + id + PLATFORM;
+    OPTIONS.path = DEFAULTPATH + id + PLATFORM;
 
-    let req = https.request(options, (res) => {
+    let req = https.request(OPTIONS, (res) => {
         let data = '';
 
-        console.log(options.host + ':' + res.statusCode);
+        console.log(OPTIONS.host + ':' + res.statusCode);
 
         if ( res.statusCode !== 200 ) {
             return message.channel.send("No results found...");
