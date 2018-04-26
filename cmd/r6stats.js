@@ -23,6 +23,18 @@ function secondsToHms(d) {
     return `${h}h ${m}m ${s}s`;
 }
 
+function collectStats(stats, part, embed) {
+    let collect = stats[part];
+    let detail = "";
+
+    for ( var attri in collect ) {
+        if ( attri === "has_played" ) continue;
+        detail += `${attri}: ${collect[attri]}\n`;
+    }
+
+    embed.addField(part, detail, true);
+}
+
 module.exports.run = async (bot, message, args) => {
     if ( args.length == 0 ) {
         return message.channel.send("What's your ID?")
@@ -67,6 +79,12 @@ module.exports.run = async (bot, message, args) => {
             
             if ( args[1] === "share" || args[1] === "s" ) {
                 message.channel.send(statembed);
+                
+                let em = new Discord.RichEmbed();
+                collectStats(stats,"casual",em);
+                collectStats(stats,"ranked",em);
+                message.channel.send(em);
+                
             } else {
                 message.author.send(statembed)
                 .then(message.channel.send("Just found yours~ Take a look at your PM"));
