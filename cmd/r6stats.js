@@ -29,10 +29,14 @@ function collectStats(stats, part, embed) {
 
     for ( var attri in collect ) {
         if ( attri === "has_played" ) continue;
-        detail += `${attri}: ${collect[attri]}\n`;
-    }
 
-    embed.addField(part, detail, true);
+        let val = collect[attri];
+        if ( attri === "playtime" ) {
+            val = secondsToHms(val);
+        }
+        detail += `**${attri.charAt(0).toUpperCase()+attri.slice(1)}:** ${val}\n`;
+    }
+    embed.addField(part.toUpperCase(), detail, true);
 }
 
 module.exports.run = async (bot, message, args) => {
@@ -66,7 +70,7 @@ module.exports.run = async (bot, message, args) => {
             let stats = player.stats;
             let casual = stats.casual;
             let statembed = new Discord.RichEmbed()
-            .setAuthor(`${player.username}@${player.platform} OVERALL STATS`, "https://i.imgur.com/uwf9FpF.jpg")
+            .setAuthor(`${player.username}@${player.platform === "uplay"? "PC" : player.platform} - OVERALL STATS`, "https://i.imgur.com/uwf9FpF.jpg")
             .setColor(0x00AE86)
             .setThumbnail(`https://ubisoft-avatars.akamaized.net/${player.ubisoft_id}/default_146_146.png`)
             .addField("WIN %", (casual.wins/(casual.wins + casual.losses) * 100).toFixed(2) + "%", true)
@@ -84,7 +88,6 @@ module.exports.run = async (bot, message, args) => {
                 collectStats(stats,"casual",em);
                 collectStats(stats,"ranked",em);
                 message.channel.send(em);
-                
             } else {
                 message.author.send(statembed)
                 .then(message.channel.send("Just found yours~ Take a look at your PM"));
