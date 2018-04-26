@@ -1,8 +1,9 @@
 const Discord = require("discord.js");
 const https = require('https');
 
-const DefaultPath = '/api/v1/players/';
-const platform = "/?platform=uplay";
+const DEFAULTPATH = '/api/v1/players/';
+const PLATFORM = "/?platform=uplay";
+const PANELCOLOR = 0x00AE86;
 
 let options = {
     host: 'api.r6stats.com',
@@ -23,19 +24,23 @@ function secondsToHms(d) {
     return `${h}h ${m}m ${s}s`;
 }
 
+const ignoredAttri = ['has_played', 'bullets_fired', 'bullets_hit'];
+
 function collectStats(stats, part, embed) {
     let collect = stats[part];
     let detail = "";
 
     for ( var attri in collect ) {
-        if ( attri === "has_played" ) continue;
+        if ( ignoredAttri.includes(attri) ) continue;
 
         let val = collect[attri];
         if ( attri === "playtime" ) {
             val = secondsToHms(val);
         }
         attri = attri.replace(/_/g, ' ');
-        detail += `**${attri.charAt(0).toUpperCase()+attri.slice(1)}:** ${val}\n`;
+        attri = attri.charAt(0).toUpperCase()+attri.slice(1);
+
+        detail += `**${attri}:** ${val}\n`;
     }
     embed.addField(part.toUpperCase(), detail, true);
 }
@@ -47,7 +52,7 @@ module.exports.run = async (bot, message, args) => {
     }
 
     let id = args[0];
-    options.path = DefaultPath + id + platform;
+    options.path = DEFAULTPATH + id + PLATFORM;
 
     let req = https.request(options, (res) => {
         let data = '';
@@ -73,7 +78,7 @@ module.exports.run = async (bot, message, args) => {
             let ranked = stats.ranked;
             let overallEmbed = new Discord.RichEmbed()
             .setAuthor(`${player.username}@${player.platform==="uplay"? "PC" : player.platform} - OVERALL STATS`, "https://i.imgur.com/uwf9FpF.jpg")
-            .setColor(0x00AE86)
+            .setColor(PANELCOLOR)
             .setThumbnail(`https://ubisoft-avatars.akamaized.net/${player.ubisoft_id}/default_146_146.png`)
             .addField("KILL", casual.kills+ranked.kills, true)
             .addField("DEATH", casual.deaths+ranked.deaths, true)
@@ -83,7 +88,7 @@ module.exports.run = async (bot, message, args) => {
             .addField("TIME PLAYED", secondsToHms(casual.playtime), true)
 
             let detailEmbed = new Discord.RichEmbed()
-            .setColor(0x00AE86)
+            .setColor(PANELCOLOR)
             .setTimestamp(`${player.updated_at}`)
             .setFooter("Recent update");
             collectStats(stats,"casual",detailEmbed);
@@ -95,7 +100,8 @@ module.exports.run = async (bot, message, args) => {
                 message.channel.send(detailEmbed);
             } else {
                 message.author.send(overallEmbed)
-                .then(message.channel.send("Just found yours~ Take a look at your PM"));
+                .then(message.author.send(detailEmbed))
+                .then(message.channel.send("Found yours~ Take a look at your PM"));
             }
         });
     });
@@ -106,7 +112,7 @@ module.exports.run = async (bot, message, args) => {
 
     req.end();
 
-    return message.channel.send("I'm working hard on seraching");
+    return message.channel.send("Working hard on seraching...");
 }
 
 module.exports.help = {
