@@ -4,7 +4,7 @@ const https = require('https');
 const DefaultPath = '/api/v1/players/';
 const platform = "/?platform=uplay";
 
-var options = {
+let options = {
     host: 'api.r6stats.com',
     path: '',
     method: 'GET',
@@ -54,10 +54,10 @@ module.exports.run = async (bot, message, args) => {
             let stats = player.stats;
             let casual = stats.casual;
             let statembed = new Discord.RichEmbed()
-            .setAuthor(`${player.username}@${player.platform}`, "https://i.imgur.com/uwf9FpF.jpg")
+            .setAuthor(`${player.username}@${player.platform} OVERALL STATS`, "https://i.imgur.com/uwf9FpF.jpg")
             .setColor(0x00AE86)
             .setThumbnail(`https://ubisoft-avatars.akamaized.net/${player.ubisoft_id}/default_146_146.png`)
-            .addField("WIN %", casual.wins/(casual.wins + casual.losses), true)
+            .addField("WIN %", (casual.wins/(casual.wins + casual.losses) * 100).toFixed(2) + "%", true)
             .addField("KILL/DIE", casual.kd, true)
             .addField("KILL", casual.kills, true)
             .addField("DEATH", casual.deaths, true)
