@@ -16,6 +16,9 @@ let OPTIONS = {
     }
 };
 
+/*
+    Helper function that convert seconds to HMS format
+ */
 function secondsToHms(d) {
     d = Number(d);
 
@@ -28,6 +31,9 @@ function secondsToHms(d) {
 
 const ignoredAttri = ['has_played', 'bullets_fired', 'bullets_hit'];
 
+/*
+    Helper function that automaticaly load stat from json object
+ */
 function collectStats(stats, part, embed) {
     let collect = stats[part];
     let detail = "";
@@ -50,14 +56,17 @@ function collectStats(stats, part, embed) {
 module.exports.run = async (bot, message, args) => {
     let id;
 
-    // If no id provided, try using the binded id of the user
+    /*
+        If no id provided, try using the binded id of the user
+     */
     if ( args.length == 0 ) {
         id = dbsearch.get( message.author.username );
 
-        // If no binded id found for this user
-        if ( id === "" ) {
-            return message.channel.send("What's your ID? \`-r6stats [uplayID]\`");
-        }
+        /*
+            If no binded id found for this user
+         */
+        if ( id === "" ) return message.channel.send("What's your ID? \`-r6stats [uplayID]\`");
+
         message.channel.send(`Querying using your binded ID ${id}`);
     } else {
         id = args[0];
@@ -74,12 +83,16 @@ module.exports.run = async (bot, message, args) => {
             return message.channel.send("No results found...");
         }
 
-        // A chunk of data has been recieved.
+        /*
+            A chunk of data has been recieved.
+         */
         res.on('data', (chunk) => {
           data += chunk;
         });
          
-        // The whole response has been received. Print out the result.
+        /*
+            The whole response has been received. Print out the result.
+         */
         res.on('end', () => {
             let obj = JSON.parse(data);
 
@@ -88,6 +101,9 @@ module.exports.run = async (bot, message, args) => {
             let casual = stats.casual;
             let ranked = stats.ranked;
 
+            /*
+                Panel for overall stats
+             */
             let overallEmbed = new Discord.RichEmbed()
             .setAuthor(`${player.username}@${player.platform==="uplay"? "PC" : player.platform} - OVERALL STATS`, "https://i.imgur.com/uwf9FpF.jpg")
             .setColor(PANELCOLOR)
@@ -99,6 +115,9 @@ module.exports.run = async (bot, message, args) => {
             .addField("WIN %", (casual.wins/(casual.wins + casual.losses) * 100).toFixed(2) + "%", true)
             .addField("TIME PLAYED", secondsToHms(casual.playtime), true)
 
+            /*
+                Panel for detail stat (Casual & Ranked)
+             */
             let detailEmbed = new Discord.RichEmbed()
             .setColor(PANELCOLOR)
             .setTimestamp(`${player.updated_at}`)

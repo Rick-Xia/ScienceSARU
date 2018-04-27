@@ -9,21 +9,23 @@ function ReadDB() {
 }
 
 module.exports.get = ( id ) => {
-    ReadDB();
     return USERS.hasOwnProperty(id)? USERS[id] : "";
 }
 
-module.exports.post = ( id, val ) => {
-    ReadDB();
-    return USERS.hasOwnProperty(id)? USERS[id] : "";
+module.exports.post = async ( id, val ) => {
+    USERS[id] = val;
+    fs.writeFile(R6USERFILENAME, JSON.stringify(USERS, null, 2), (err) => { if (err) throw err; });
+    return;
 }
 
-module.exports.put = ( id, val ) => {
-    ReadDB();
-    return USERS.hasOwnProperty(id)? USERS[id] : "";
+module.exports.put = async ( id, val ) => {
+    USERS[id] = val;
+    fs.writeFile(R6USERFILENAME, JSON.stringify(USERS, null, 2), (err) => { if (err) throw err; });
+    return;
 }
 
-module.exports.delete = ( id ) => {
-    ReadDB();
-    return USERS.hasOwnProperty(id)? USERS[id] : "";
+module.exports.delete = async ( id ) => {
+    delete USERS[id];
+    fs.writeFile(R6USERFILENAME, JSON.stringify(USERS, null, 2), (err) => { if (err) throw err; });
+    return;
 }
