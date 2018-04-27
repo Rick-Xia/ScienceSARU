@@ -3,11 +3,6 @@ const fs = require("fs");
 
 const R6USERFILENAME = "../localdata/r6users.json";
 
-// fs.readFile(, 'utf8', function (err, data) {
-//     if (err) throw err;
-//     USERS = JSON.parse(data);
-// });
-
 module.exports.run = async (bot, message, args) => {
 
     let USERS = require(R6USERFILENAME);
@@ -17,17 +12,6 @@ module.exports.run = async (bot, message, args) => {
     }
     let r6id = args[0], username = message.author.username;
 
-    // for ( let user in USERS ) {
-    //     if ( user === message.author.username ) {
-    //         if ( USERS[user] === r6id ) {
-    //             return message.channel.send(`No update made. Your default ID is still ${USERS[user]}`);
-    //         } else {
-    //             USERS[user] = r6id;
-    //             fs.writeFile('./localdata/r6users.json', JSON.stringify(USERS, null, 2));
-    //             return message.channel.send(`Your default ID has been updated. Now is ${USERS[user]}`);
-    //         }
-    //     }
-    // }
     if ( USERS.hasOwnProperty(username) ) {
         if ( USERS[username] === r6id ) {
             return message.channel.send(`No update made. Your default ID is still ${USERS[username]}`);
