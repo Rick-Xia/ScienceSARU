@@ -4,7 +4,9 @@ get inspired
 * prettify stats panel - OK
 * improve more on stat - OK
 	- stats for operators
-* storing user's uplay id (default id)
+* storing user's uplay id (default id) - OK
+	- relative dir - OK
+	- delete binding
 
 * cosplay nsfw (japanese)
 * video search
