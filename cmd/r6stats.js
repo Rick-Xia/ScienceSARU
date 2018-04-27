@@ -31,7 +31,7 @@ function collectStats(stats, part, embed) {
     let collect = stats[part];
     let detail = "";
 
-    for ( var attri in collect ) {
+    for ( let attri in collect ) {
         if ( ignoredAttri.includes(attri) ) continue;
 
         let val = collect[attri];

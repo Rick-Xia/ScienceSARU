@@ -1,18 +1,46 @@
 const Discord = require("discord.js");
 const fs = require("fs");
 
-var USERS;
-fs.readFile('../localdata/r6users.json', 'utf8', function (err, data) {
-    if (err) throw err;
-    USERS = JSON.parse(data);
-});
+const R6USERFILENAME = "../localdata/r6users.json";
+
+// fs.readFile(, 'utf8', function (err, data) {
+//     if (err) throw err;
+//     USERS = JSON.parse(data);
+// });
 
 module.exports.run = async (bot, message, args) => {
-    console.log(`the author id is ${message.author.id}`);
-    console.log(`the author id is ${message.author.username}`);
 
-    let id = args[0];
+    let USERS = require(R6USERFILENAME);
 
+    if ( args.length <= 0 || args.length >= 2 ) {
+        return message.channel.send(`Plz use the correct form.`);
+    }
+    let r6id = args[0], username = message.author.username;
+
+    // for ( let user in USERS ) {
+    //     if ( user === message.author.username ) {
+    //         if ( USERS[user] === r6id ) {
+    //             return message.channel.send(`No update made. Your default ID is still ${USERS[user]}`);
+    //         } else {
+    //             USERS[user] = r6id;
+    //             fs.writeFile('./localdata/r6users.json', JSON.stringify(USERS, null, 2));
+    //             return message.channel.send(`Your default ID has been updated. Now is ${USERS[user]}`);
+    //         }
+    //     }
+    // }
+    if ( USERS.hasOwnProperty(username) ) {
+        if ( USERS[username] === r6id ) {
+            return message.channel.send(`No update made. Your default ID is still ${USERS[username]}`);
+        } else {
+            USERS[username] = r6id;
+            fs.writeFile('./localdata/r6users.json', JSON.stringify(USERS, null, 2), (err) => { if (err) throw err; });
+            return message.channel.send(`Your default ID has been updated. Now is ${USERS[username]}`);
+        }
+    }
+
+    USERS[username] = r6id;
+    fs.writeFile('./localdata/r6users.json', JSON.stringify(USERS, null, 2), (err) => { if (err) throw err; });
+    return message.channel.send(`Your default ID registered. Now is ${USERS[username]}`);
 }
 
 module.exports.help = {
