@@ -12,7 +12,7 @@ module.exports.run = async (bot, message, args) => {
     console.log(`the author id is ${message.author.username}`);
 
     let id = args[0];
-    
+
 }
 
 module.exports.help = {
