@@ -1,2 +1,4 @@
 token.json
 node_modules/*
+
+./localdata/r6users.json
