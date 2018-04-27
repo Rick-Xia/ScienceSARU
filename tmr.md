@@ -6,7 +6,7 @@ get inspired
 	- stats for operators
 * storing user's uplay id (default id) - OK
 	- relative dir - OK
-	- delete binding
+	- delete binding - OK
 
 * cosplay nsfw (japanese)
 * video search
