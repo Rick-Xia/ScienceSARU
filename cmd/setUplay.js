@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const fs = require("fs");
+const dbsearch = require('../bin/dbSearch.js');
 
 const R6USERFILENAME = "./localdata/r6users.json";
 
@@ -12,7 +13,7 @@ module.exports.run = async (bot, message, args) => {
 
     // If the number arguments is NOT right, give default response
     if ( args.length <= 0 || args.length >= 2 ) {
-        if ( USERS.hasOwnProperty(username) ) {
+        if ( dbsearch.get(username) ) {
             return message.channel.send(`Your default ID is ${USERS[username]}`);
         } else {
             return message.channel.send(`Tell me the uplay ID you want to bind? \`-setDefault [uplayid]\``);
@@ -48,6 +49,6 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-	name: "setDefault",
-	cmd: "setDefault"
+	name: "setUplay",
+	cmd: "setUplay"
 }

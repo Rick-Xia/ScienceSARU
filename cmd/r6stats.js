@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const https = require('https');
+const dbsearch = require('../bin/dbSearch.js');
 
 const DEFAULTPATH = '/api/v1/players/';
 const PLATFORM = "/?platform=uplay";
@@ -47,12 +48,21 @@ function collectStats(stats, part, embed) {
 }
 
 module.exports.run = async (bot, message, args) => {
+    let id;
+
+    // If no id provided, try using the binded id of the user
     if ( args.length == 0 ) {
-        return message.channel.send("What's your ID?")
-        .then(msg => msg.channel.send("(Please add your ID after the command)"));      
+        id = dbsearch.get( message.author.username );
+
+        // If no binded id found for this user
+        if ( id === "" ) {
+            return message.channel.send("What's your ID? \`-r6stats [uplayID]\`");
+        }
+        message.channel.send(`Querying using your binded ID ${id}`);
+    } else {
+        id = args[0];
     }
 
-    let id = args[0];
     OPTIONS.path = DEFAULTPATH + id + PLATFORM;
 
     let req = https.request(OPTIONS, (res) => {

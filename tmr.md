@@ -7,6 +7,7 @@ get inspired
 * storing user's uplay id (default id) - OK
 	- relative dir - OK
 	- delete binding - OK
+	- modulize db requests
 
 * cosplay nsfw (japanese)
 * video search
