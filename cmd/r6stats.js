@@ -60,12 +60,14 @@ module.exports.run = async (bot, message, args) => {
         If no id provided, try using the binded id of the user
      */
     if ( args.length == 0 ) {
-        id = dbsearch.get( message.author.username );
+        id = dbsearch.get( message.author.id );
 
         /*
             If no binded id found for this user
          */
-        if ( id === "" ) return message.channel.send("What's your ID? \`-r6stats [uplayID]\`");
+        if ( id === "" )
+            return message.channel.send("What's your ID? \`-r6stats [uplayID]\`")
+                    .then(message.channel.send("Or you can bind your uplayid using \`-setUplay [uplayID]\`"));
 
         message.channel.send(`Querying using your binded ID ${id}`);
     } else {

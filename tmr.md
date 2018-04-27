@@ -8,7 +8,8 @@ get inspired
 	- relative dir - OK
 	- delete binding - OK
 	- modulize db requests - OK
-	- Use userid instead of username
+	- Use userid instead of username - OK
+	- response to history query
 
 * cosplay nsfw (japanese)
 * video search

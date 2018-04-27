@@ -9,7 +9,7 @@ module.exports.run = async (bot, message, args) => {
     /*
         Get user data from the databse
      */
-    let r6id = args[0], username = message.author.username;
+    let r6id = args[0], username = message.author.id;
 
     /*
         If the number arguments is NOT right, give default response
