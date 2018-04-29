@@ -66,10 +66,10 @@ module.exports.run = async (bot, message, args) => {
             If no binded id found for this user
          */
         if ( id === "" )
-            return message.channel.send("What's your ID? \`-r6stats [uplayID]\`")
+            return message.channel.send("What's your ID? \`-r6 [uplayID]\`")
                     .then(message.channel.send("Or you can bind your uplayid using \`-setUplay [uplayID]\`"));
 
-        message.channel.send(`Querying using your binded ID ${id}`);
+        message.channel.send(`Querying using your binded ID \`${id}\``);
     } else {
         id = args[0];
     }
@@ -149,6 +149,6 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-	name: "r6stats",
-	cmd: "r6stats"
+	name: "r6",
+	cmd: "r6"
 }
