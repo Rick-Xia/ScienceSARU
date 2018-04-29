@@ -10,6 +10,7 @@ get inspired
 	- modulize db requests - OK
 	- Use userid instead of username - OK
 	- response to history query
+	- support all platforms
 
 * cosplay nsfw (japanese)
 * video search

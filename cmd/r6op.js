@@ -4,6 +4,7 @@ const dbsearch = require('../bin/dbSearch.js');
 const secToHMS = require('../bin/secToHMS.js');
 
 const DEFAULTPATH = '/api/v1/players/';
+const OPERATOR = 'operators/'
 const PLATFORM = "/?platform=uplay";
 const PANELCOLOR = 0x00AE86;
 
@@ -31,7 +32,7 @@ function collectStats(stats, part, embed) {
 
         let val = collect[attri];
         if ( attri === "playtime" ) {
-            val = secToHMS(val);
+            val = secondsToHms(val);
         }
         attri = attri.replace(/_/g, ' ');
         attri = attri.charAt(0).toUpperCase()+attri.slice(1);
@@ -39,6 +40,33 @@ function collectStats(stats, part, embed) {
         detail += `**${attri}:** ${val}\n`;
     }
     embed.addField(part.toUpperCase(), detail, true);
+}
+
+/*
+    Helper functions that find the operator in both atk and def that
+     the user played the most
+ */
+function findMostPlayedOps(records) {
+    let retOps = [ "mpATK": {"stats" : {
+        "played": -1
+    }, "operator": {
+        "role": "atk"
+    }},
+        "mpDEF": {"stats" : {
+        "played": -1
+    }, "operator": {
+        "role": "def"
+    }}];
+
+    for ( let op in records ) {
+        if ( op.operator.role === "atk" ) {
+            if ( op.stats.played > retOps.mpATK.stats.played ) retOps.mpATK = op;
+        } else {
+            if ( op.stats.played > retOps.mpDEF.stats.played ) retOps.mpDEF = op;
+        }
+    }
+
+    return retOps; 
 }
 
 module.exports.run = async (bot, message, args) => {
@@ -62,7 +90,7 @@ module.exports.run = async (bot, message, args) => {
         id = args[0];
     }
 
-    OPTIONS.path = DEFAULTPATH + id + PLATFORM;
+    OPTIONS.path = DEFAULTPATH + id + OPERATOR + PLATFORM;
 
     let req = https.request(OPTIONS, (res) => {
         let data = '';
@@ -86,10 +114,11 @@ module.exports.run = async (bot, message, args) => {
         res.on('end', () => {
             let obj = JSON.parse(data);
 
-            let player = obj.player;
-            let stats = player.stats;
-            let casual = stats.casual;
-            let ranked = stats.ranked;
+            let records = obj.operator_records;
+            let ops = findMostPlayedOps(records);
+            let atkOps = ops.mpATK, defOps = ops.mpDEF;
+
+            console.log(`most played atk op is ${JSON.stringify(atkOps)} and def op is ${JSON.stringify(defOps)}`);
 
             /*
                 Panel for overall stats
@@ -103,7 +132,7 @@ module.exports.run = async (bot, message, args) => {
             .addField("K/D", ((casual.kills+ranked.kills)/(casual.deaths+ranked.deaths)).toFixed(3), true)
             .addField("LEVEL", stats.progression.level, true)
             .addField("WIN %", (casual.wins/(casual.wins + casual.losses) * 100).toFixed(2) + "%", true)
-            .addField("TIME PLAYED", secToHMS(casual.playtime), true)
+            .addField("TIME PLAYED", secondsToHms(casual.playtime), true)
 
             /*
                 Panel for detail stat (Casual & Ranked)
@@ -137,6 +166,6 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-	name: "r6",
-	cmd: "r6"
+	name: "r6op",
+	cmd: "r6op"
 }
