@@ -1,5 +1,5 @@
 # ScienceSARU
-A discord bot assistant made by myself (ASAIRokujyou). Language is NodeJS.
+A discord chat bot made in NodeJS and MongoDB.
 
 ## Functions:
 Mainly designed for myself and my friends, providing convenience for our gaming and daily life such as Rainbow 6 stats querying and weather querying.

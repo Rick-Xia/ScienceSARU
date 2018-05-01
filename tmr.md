@@ -11,6 +11,8 @@ get inspired
 	- Use userid instead of username - OK
 	- response to history query
 	- support all platforms
+* Switch storage file to MongoDB
+	- File path detection to decided which system to use
 
 * cosplay nsfw (japanese)
 * video search

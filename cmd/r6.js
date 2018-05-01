@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const https = require('https');
 const dbsearch = require('../bin/dbSearch.js');
-const secToHMS = require('../bin/secToHMS.js');
+const timeHelper = require('../bin/secToHMS.js');
 
 const DEFAULTPATH = '/api/v1/players/';
 const PLATFORM = "/?platform=uplay";
@@ -31,7 +31,7 @@ function collectStats(stats, part, embed) {
 
         let val = collect[attri];
         if ( attri === "playtime" ) {
-            val = secToHMS(val);
+            val = timeHelper.secToHMS(val);
         }
         attri = attri.replace(/_/g, ' ');
         attri = attri.charAt(0).toUpperCase()+attri.slice(1);
@@ -103,7 +103,7 @@ module.exports.run = async (bot, message, args) => {
             .addField("K/D", ((casual.kills+ranked.kills)/(casual.deaths+ranked.deaths)).toFixed(3), true)
             .addField("LEVEL", stats.progression.level, true)
             .addField("WIN %", (casual.wins/(casual.wins + casual.losses) * 100).toFixed(2) + "%", true)
-            .addField("TIME PLAYED", secToHMS(casual.playtime), true)
+            .addField("TIME PLAYED", timeHelper.secToHMS(casual.playtime), true)
 
             /*
                 Panel for detail stat (Casual & Ranked)

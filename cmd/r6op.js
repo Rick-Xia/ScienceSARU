@@ -47,7 +47,7 @@ function collectStats(stats, part, embed) {
      the user played the most
  */
 function findMostPlayedOps(records) {
-    let retOps = [ "mpATK": {"stats" : {
+    let retOps = { "mpATK": {"stats" : {
         "played": -1
     }, "operator": {
         "role": "atk"
@@ -56,7 +56,7 @@ function findMostPlayedOps(records) {
         "played": -1
     }, "operator": {
         "role": "def"
-    }}];
+    }}};
 
     for ( let op in records ) {
         if ( op.operator.role === "atk" ) {
