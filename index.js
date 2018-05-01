@@ -1,11 +1,18 @@
 const Discord = require('discord.js');
 const tokenfile = require('./token.json');
 const botconfig = require('./localdata/botconfig.json');
+const mongoose = require('mongoose');
 
 const fs = require("fs");
 
-const errorMsg = "It's so busy here...I need money for the Antarctica anyway!";
-const prefix = botconfig.prefix;
+const MONGOURL = 'mongodb://localhost:27017/SARU';
+const ERRORMSG = "It's so busy here...I need money for the Antarctica anyway!";
+const PREFIX = botconfig.prefix;
+
+const mongoConnect = mongoose.connect(MONGOURL);
+mongoConnect.then((db) => {
+    console.log('Connected correctly to MongoDB');
+}, (err) => { console.log(err); });
 
 const bot = new Discord.Client({disableEveryone: true});
 bot.commands = new Discord.Collection();
@@ -43,15 +50,15 @@ bot.on("message", async message => {
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
 
-    if ( cmd.charAt(0) !== prefix ) return;
+    if ( cmd.charAt(0) !== PREFIX ) return;
 
-    let commandfile = bot.commands.get( cmd.slice(prefix.length) );
+    let commandfile = bot.commands.get( cmd.slice(PREFIX.length) );
 
     if ( commandfile ) {
         commandfile.run( bot, message, args );
     }
     else {
-        message.channel.send(errorMsg);
+        message.channel.send(ERRORMSG);
         message.channel.send("(Bot didn't seem to understand your command. Use \"-help\" to get the command list)");
     }
 
