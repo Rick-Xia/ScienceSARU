@@ -12,6 +12,16 @@ const PREFIX = botconfig.prefix;
 const mongoConnect = mongoose.connect(MONGOURL);
 mongoConnect.then((db) => {
     console.log('Connected correctly to MongoDB');
+    // mongoose.connection.db.listCollections().toArray(function(err, names) {
+    // if (err) {
+    //     console.log(err);
+    // }
+    // else {
+    //     names.forEach(function(e,i,a) {
+    //         console.log("--->>", e.name);
+    //     });
+    // }
+    // });
 }, (err) => { console.log(err); });
 
 const bot = new Discord.Client({disableEveryone: true});

@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const idSchema = new Schema(
+const idSchema = new mongoose.Schema(
 	{
 		discordID: {
 			type: String,
-			required: true
+			required: true,
+			unique: true
 		},
 		rssID: {
 			type: String,
