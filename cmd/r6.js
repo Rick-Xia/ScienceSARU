@@ -49,26 +49,7 @@ function collectStats(stats, part, embed) {
     embed.addField(part.toUpperCase(), detail, true);
 }
 
-module.exports.run = async (bot, message, args) => {
-    let id;
-
-    /*
-        If no id provided, try using the binded id of the user
-     */
-    if ( args.length == 0 ) {
-        id = dbsearch.get( message.author.id );
-
-        /*
-            If no binded id found for this user
-         */
-        if ( id === "" )
-            return message.channel.send("What's your ID? \`-r6 [uplayID]\`")
-                    .then(message.channel.send("Or you can bind your uplayid using \`-setUplay [uplayID]\`"));
-
-        message.channel.send(`Querying using your binded ID \`${id}\``);
-    } else {
-        id = args[0];
-    }
+function queryStats ( id, message, args ) {
 
     OPTIONS.path = DEFAULTPATH + id + PLATFORM;
 
@@ -140,8 +121,35 @@ module.exports.run = async (bot, message, args) => {
     });
 
     req.end();
+}
 
-    return message.channel.send("Working hard on seraching...");
+module.exports.run = async (bot, message, args) => {
+    let id;
+
+    /*
+        If no id provided, try using the binded id of the user
+     */
+    switch( args.length ) {
+        case 0:
+            dbsearch.get( message.author.id, (result) => {
+                if ( result ) {
+                    id = result;
+                    message.channel.send(`Querying using your binded ID \`${id}\``);
+                    queryStats( id, message, args );
+                }
+                else {
+                    return message.channel.send("What's your ID? \`-r6 [uplayID]\`")
+                        .then(message.channel.send("Or you can bind your uplayid using \`-setUplay [uplayID]\`"));
+                }
+            });
+            break;
+        case 1:
+            id = args[0];
+            queryStats(id, message, args);
+            break;
+        default:
+            return message.channel.send("Please input correct id \`-r6 [uplayID]`");
+    }
 }
 
 module.exports.help = {
