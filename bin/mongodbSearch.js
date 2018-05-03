@@ -5,30 +5,16 @@ const R6ids = require('../models/r6ids');
 module.exports.get = ( id ) => {
     console.log(`trying to search db using ${id}, the type of it is ${typeof id}`);
 
-    // var temp = new R6ids({ discordID: '2', rssID: 'snickers' });
-    // temp.save(function (err) {
-    //     if (err) console.log(err);
-    // });
+    R6ids.findOne({ discordID: id }, (err, user) => {
+        if (err) { console.log(`Error Happened: ${err}`) }
 
-    // R6ids.find({}, function (err, list) {
-    //     console.log(`the whole list is: ${list}`);
-    // });
-
-    // R6ids.find({})
-    // .then(list => {
-    //     console.log(JSON.stringify(list));
-    //     console.log(`the whole list is: ${list}`);
-
-    // }, (err) => console.log(`query db failed`))
-    // .catch((err) => next(err));
-
-
-    R6ids.findOne({ discordID: id })
-    .then(user => {
-        console.log( `${user.discordID} : ${user.rssID}` );
-        return true;
-    })
-    .catch(err => console.log(`a`));
+        if (user) {
+            console.log( `${user.discordID} : ${user.rssID}` );
+            return true;
+        } else {
+            console.log(`fail to find one`);
+        }
+    });
 }
 
 // /*
