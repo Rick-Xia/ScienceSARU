@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const R6ids = require('../models/r6ids');
 
-module.exports.get = ( id, next ) => {
-    
+module.exports.get = ( id ) => {
+
     return new Promise((resolve, reject) => {
         R6ids.findOne({ discordID: id }, (err, user) => {
-            if (err) reject(`${err}`);
+            if (err) reject(err);
 
             if (user) {
                 console.log( `${user.discordID} : ${user.rssID}` );
@@ -15,47 +15,43 @@ module.exports.get = ( id, next ) => {
             }
         });
     });
-
-    // R6ids.findOne( { discordID: id }, (err, user) => {
-    //     if (err) { console.log(`Error Happened: ${err}`); }
-
-    //     if (user) {
-    //         console.log( `${user.discordID} : ${user.rssID}` );
-    //         next(user.rssID);
-    //     } else {
-    //         console.log(`fail to find one`);
-    //         next();
-    //     }
-    // });
 }
 
 /*
     to create a new discordID-uplayID pair in database
  */
-module.exports.post = async ( id, val, next ) => {
-    R6ids.create( { discordID: id, rssID: val }, (err, model) => {
-        if (err) { console.log(`Error Happened: ${err}`); }
+module.exports.post = ( id, val, next ) => {
 
-        next();
+    return new Promise((resolve, reject) => {
+        R6ids.create({ discordID: id, rssID: val }, (err, model) => {
+            if (err) reject(err);
+
+            resolve();
+        });
     });
 }
 
 /*
     to modify an existing pair
  */
-module.exports.put = async ( id, val, next ) => {
-    R6ids.findOneAndUpdate( { discordID: id }, { $set: { rssID: val } }, (err) => {
-        if (err) { console.log(`Error Happened: ${err}`); }
+module.exports.put = ( id, val, next ) => {
 
-        next();
+    return new Promise((resolve, reject) => {
+        R6ids.findOneAndUpdate({ discordID: id }, { $set: { rssID: val } }, (err) => {
+            if (err) reject(err);
+
+            resolve();
+        });
     });
-
 }
 
-module.exports.delete = async ( id, next ) => {
-    R6ids.findOneAndRemove( { discordID: id }, (err) => {
-        if (err) { console.log(`Error Happened: ${err}`); }
+module.exports.delete = ( id, next ) => {
 
-        next();
-    });
+    return new Promise((resolve, reject) => {
+        R6ids.findOneAndRemove( { discordID: id }, (err) => {
+            if (err) reject(err);
+
+            resolve();
+        });
+    })
 }
