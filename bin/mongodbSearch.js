@@ -37,7 +37,7 @@ module.exports.post = ( id, val ) => {
 module.exports.put = ( id, val ) => {
 
     return new Promise((resolve, reject) => {
-        R6ids.findOneAndUpdate({ discordID: id }, { $set: { rssID: val } }, (err) => {
+        R6ids.findOneAndUpdate({ discordID: id }, { $set: { rssID: val }}, { upsert: true }, (err) => {
             if (err) reject(err);
 
             resolve();
