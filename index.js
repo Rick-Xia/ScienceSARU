@@ -14,13 +14,6 @@ mongoConnect.then((db) => {
     console.log(`Connected correctly to MongoDB`);
 }, (err) => { console.log(`Connection Failed`) });
 
-// try {
-//     const mongoConnect = mongoose.connect(MONGOURL);
-//     mongoConnect.then((db) => {
-//         console.log(`Connected correctly to MongoDB`);
-//     }, (err) => { console.log(mongoConnect); });
-// } catch(err) { console.log(`connection failed`) }
-
 const bot = new Discord.Client({disableEveryone: true});
 bot.commands = new Discord.Collection();
 
