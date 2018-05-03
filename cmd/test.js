@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
-const MongoDBSearch = require('../bin/mongodbSearch.js');
+// const MongoDBSearch = require('../bin/mongodbSearch.js');
+const mongoose = require('mongoose');
 
 module.exports.run = async (bot, message, args) => {
     let temp = 0;
@@ -18,7 +19,7 @@ module.exports.run = async (bot, message, args) => {
 
 
     
-    // console.log(mongoose.connection.readyState);
+    console.log(mongoose.connection.readyState);
     
     // MongoDBSearch.get(args[0], (id) => {
     // 	if ( id ) {

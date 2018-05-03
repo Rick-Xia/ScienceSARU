@@ -12,17 +12,14 @@ const PREFIX = botconfig.prefix;
 const mongoConnect = mongoose.connect(MONGOURL);
 mongoConnect.then((db) => {
     console.log(`Connected correctly to MongoDB`);
-    // mongoose.connection.db.listCollections().toArray(function(err, names) {
-    // if (err) {
-    //     console.log(err);
-    // }
-    // else {
-    //     names.forEach(function(e,i,a) {
-    //         console.log("--->>", e.name);
-    //     });
-    // }
-    // });
-}, (err) => { console.log(mongoConnect); });
+}, (err) => { console.log(`Connection Failed`) });
+
+// try {
+//     const mongoConnect = mongoose.connect(MONGOURL);
+//     mongoConnect.then((db) => {
+//         console.log(`Connected correctly to MongoDB`);
+//     }, (err) => { console.log(mongoConnect); });
+// } catch(err) { console.log(`connection failed`) }
 
 const bot = new Discord.Client({disableEveryone: true});
 bot.commands = new Discord.Collection();

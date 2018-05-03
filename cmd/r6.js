@@ -5,11 +5,11 @@ const botconfig = require('../localdata/botconfig.json');
 const timeHelper = require('../bin/secToHMS.js');
 const mongoose = require('mongoose');
 
-let dbsearch;
+let db;
 if ( mongoose.connection.readyState ) {
-    dbsearch = require('../bin/mongodbSearch.js');
+    db = require('../bin/mongodbSearch.js');
 } else {
-    dbsearch = require('../bin/dbSearch.js');
+    db = require('../bin/dbSearch.js');
 }
 
 const DEFAULTPATH = '/api/v1/players/';
@@ -63,7 +63,7 @@ module.exports.run = async ( bot, message, args ) => {
 
     switch( args.length ) {
         case 0:
-            await dbsearch.get( message.author.id )
+            await db.get( message.author.id )
                 .then((result) => {
                     message.channel.send(`Querying using your binded ID \`${result}\``);
                     queryId = result;

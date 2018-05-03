@@ -7,12 +7,12 @@ const PREFIX = botconfig.prefix;
 
 let db;
 if ( mongoose.connection.readyState ) {
+    console.log(`MongoDB required`);
     db = require('../bin/mongodbSearch.js');
 } else {
+    console.log(`JSON required`);
     db = require('../bin/dbSearch.js');
 }
-
-const R6USERFILENAME = "./localdata/r6users.json";
 
 module.exports.run = async (bot, message, args) => {
 
@@ -29,10 +29,10 @@ module.exports.run = async (bot, message, args) => {
     if ( args.length <= 0 ) {
         return db.get(discordID)
             .then((uplayID) => {
-                message.channel.send(`Your binded Uplay id is \`${uplayID}\``);
+                return message.channel.send(`Your binded Uplay id is \`${uplayID}\``);
             })
             .catch((err) => {
-                message.channel.send(`Tell me the uplay ID you want to bind? \`-setUplay [uplayid]\``);
+                return message.channel.send(`Tell me the uplay ID you want to bind? \`-setUplay [uplayid]\``);
             });
     }
 
