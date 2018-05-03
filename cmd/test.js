@@ -2,9 +2,24 @@ const Discord = require("discord.js");
 const MongoDBSearch = require('../bin/mongodbSearch.js');
 
 module.exports.run = async (bot, message, args) => {
+    let temp = 0;
+
+    // await MongoDBSearch.get(args[0])
+    // .then((id) => {
+    //     if (id) {
+    //         temp = id;
+    //         console.log(`found it!`);
+    //     } else {}
+    // })
+    // .catch((err) => {
+    //     temp = err;
+    // });
+    // console.log(`I want to see temp updated: ${temp}`);
+
 
     
     // console.log(mongoose.connection.readyState);
+    
     // MongoDBSearch.get(args[0], (id) => {
     // 	if ( id ) {
     // 		console.log(`get s: ${id}`);

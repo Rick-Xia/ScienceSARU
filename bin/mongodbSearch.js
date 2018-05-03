@@ -2,17 +2,31 @@ const mongoose = require('mongoose');
 const R6ids = require('../models/r6ids');
 
 module.exports.get = ( id, next ) => {
-    R6ids.findOne( { discordID: id }, (err, user) => {
-        if (err) { console.log(`Error Happened: ${err}`); }
+    
+    return new Promise((resolve, reject) => {
+        R6ids.findOne({ discordID: id }, (err, user) => {
+            if (err) reject(`${err}`);
 
-        if (user) {
-            console.log( `${user.discordID} : ${user.rssID}` );
-            next(user.rssID);
-        } else {
-            console.log(`fail to find one`);
-            next();
-        }
+            if (user) {
+                console.log( `${user.discordID} : ${user.rssID}` );
+                resolve(user.rssID);
+            } else {
+                reject(`fail to find one`);
+            }
+        });
     });
+
+    // R6ids.findOne( { discordID: id }, (err, user) => {
+    //     if (err) { console.log(`Error Happened: ${err}`); }
+
+    //     if (user) {
+    //         console.log( `${user.discordID} : ${user.rssID}` );
+    //         next(user.rssID);
+    //     } else {
+    //         console.log(`fail to find one`);
+    //         next();
+    //     }
+    // });
 }
 
 /*

@@ -51,9 +51,37 @@ function collectStats ( stats, part, embed ) {
     embed.addField(part.toUpperCase(), detail, true);
 }
 
-function queryStats ( id, next ) {
+module.exports.run = async ( bot, message, args ) => {
 
-    OPTIONS.path = DEFAULTPATH + id + PLATFORM;
+    let share = false, queryId = "";
+    if ( args.length > 0 && args[0].charAt(0) === PREFIX ) {
+        if ( args[0].slice(1) === "s" || args[0].slice(1) === "share" ) {
+            share = true;
+        }
+        args.shift();
+    }
+
+    switch( args.length ) {
+        case 0:
+            await dbsearch.get( message.author.id )
+                .then((result) => {
+                    message.channel.send(`Querying using your binded ID \`${result}\``);
+                    queryId = result;
+                })
+                .catch((err) => {
+                    return message.channel.send("What's your ID? \`-r6 [uplayID]\`")
+                            .then(message.channel.send("Or you can bind your uplayid using \`-setUplay [uplayID]\`"));
+                });
+            break;
+
+        case 1:
+            queryId = args[0];
+            break;
+        default:
+            return message.channel.send("Please input correct id \`-r6 [uplayID]`");
+    }
+
+    OPTIONS.path = DEFAULTPATH + queryId + PLATFORM;
 
     let req = https.request(OPTIONS, (res) => {
         let data = '';
@@ -61,14 +89,14 @@ function queryStats ( id, next ) {
         console.log(OPTIONS.host + ':' + res.statusCode);
 
         if ( res.statusCode !== 200 ) {
-            return next(res.statusCode);
+            return message.channel.send("No results found...");
         }
 
         /*
             A chunk of data has been recieved.
          */
         res.on('data', (chunk) => {
-          data += chunk;
+            data += chunk;
         });
          
         /*
@@ -107,7 +135,14 @@ function queryStats ( id, next ) {
             collectStats(stats, "ranked", detailEmbed);
             collectStats(stats, "overall", detailEmbed);
 
-            next( 0, overallEmbed, detailEmbed );
+            if (share) {
+                message.channel.send(overallEmbed);
+                message.channel.send(detailEmbed);
+            } else {
+                message.author.send(overallEmbed)
+                .then(message.author.send(detailEmbed));
+            }
+
         });
     });
 
@@ -116,61 +151,6 @@ function queryStats ( id, next ) {
     });
 
     req.end();
-}
-
-module.exports.run = async ( bot, message, args ) => {
-
-    let share = false;
-
-    if ( args.length > 0 && args[0].charAt(0) === PREFIX ) {
-        if ( args[0].slice(1) === "s" || args[0].slice(1) === "share" ) {
-            share = true;
-        }
-        args.shift();
-    }
-
-    switch( args.length ) {
-        case 0:
-            dbsearch.get( message.author.id, ( result ) => {
-                if ( result ) {
-                    message.channel.send(`Querying using your binded ID \`${result}\``);
-                    queryStats(result, ( err, overall, detail ) => {
-                        if (err) return message.channel.send("No results found...");
-
-                        if (share) {
-                            message.channel.send(overall);
-                            message.channel.send(detail);
-                        } else {
-                            message.author.send(overall)
-                            .then(message.author.send(detail));
-                        }
-                    });
-                }
-                else {
-                    return message.channel.send("What's your ID? \`-r6 [uplayID]\`")
-                        .then(message.channel.send("Or you can bind your uplayid using \`-setUplay [uplayID]\`"));
-                }
-            });
-            console.log(`which one faster?`);
-            break;
-
-        case 1:
-            queryStats( args[0], ( err, overall, detail ) => {
-                if (err) return message.channel.send("No results found...");
-
-                if (share) {
-                    message.channel.send(overall);
-                    message.channel.send(detail);
-                } else {
-                    message.author.send(overall)
-                    .then(message.author.send(detail));
-                }
-            });
-            break;
-        default:
-            return message.channel.send("Please input correct id \`-r6 [uplayID]`");
-    }
-
 }
 
 module.exports.help = {
