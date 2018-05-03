@@ -20,7 +20,7 @@ module.exports.get = ( id ) => {
 /*
     to create a new discordID-uplayID pair in database
  */
-module.exports.post = ( id, val, next ) => {
+module.exports.post = ( id, val ) => {
 
     return new Promise((resolve, reject) => {
         R6ids.create({ discordID: id, rssID: val }, (err, model) => {
@@ -34,7 +34,7 @@ module.exports.post = ( id, val, next ) => {
 /*
     to modify an existing pair
  */
-module.exports.put = ( id, val, next ) => {
+module.exports.put = ( id, val ) => {
 
     return new Promise((resolve, reject) => {
         R6ids.findOneAndUpdate({ discordID: id }, { $set: { rssID: val } }, (err) => {
@@ -45,7 +45,7 @@ module.exports.put = ( id, val, next ) => {
     });
 }
 
-module.exports.delete = ( id, next ) => {
+module.exports.delete = ( id ) => {
 
     return new Promise((resolve, reject) => {
         R6ids.findOneAndRemove( { discordID: id }, (err) => {
