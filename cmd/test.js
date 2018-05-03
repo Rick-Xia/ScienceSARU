@@ -2,13 +2,27 @@ const Discord = require("discord.js");
 const MongoDBSearch = require('../bin/mongodbSearch.js');
 
 module.exports.run = async (bot, message, args) => {
-    // console.log("You hit sth for testing purpose.");
+    // MongoDBSearch.get(args[0], (id) => {
+    // 	if ( id ) {
+    // 		console.log(`get s: ${id}`);
+    // 	} else {
+    // 		console.log(`NO!`);
+    // 	}
+    // });
 
-    let id = args[0];
-
-    MongoDBSearch.get(id);
-    //.catch(err => console.log('err catched'));
+    // MongoDBSearch.post(args[0], args[1], (err) => {
+    // 	// check if err happened
+    // 	console.log(`no idea what happens now`);
+    // });
     
+    // MongoDBSearch.put(args[0], args[1], (err) => {
+    // 	console.log(`no idea what happens now ver 2`);
+    // });
+ 
+    // MongoDBSearch.delete(args[0], (err) => {
+    // 	console.log(`trying to do sth. should I add post middleware?`);
+    // });
+
     return;
 }
 
