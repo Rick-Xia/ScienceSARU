@@ -2,6 +2,9 @@ const Discord = require("discord.js");
 const MongoDBSearch = require('../bin/mongodbSearch.js');
 
 module.exports.run = async (bot, message, args) => {
+
+    
+    // console.log(mongoose.connection.readyState);
     // MongoDBSearch.get(args[0], (id) => {
     // 	if ( id ) {
     // 		console.log(`get s: ${id}`);

@@ -1,7 +1,15 @@
 const Discord = require("discord.js");
 const https = require('https');
-const dbsearch = require('../bin/dbSearch.js');
+
 const timeHelper = require('../bin/secToHMS.js');
+const mongoose = require('mongoose');
+
+let dbsearch;
+if ( mongoose.connection.readyState ) {
+    dbsearch = require('../bin/mongodbSearch.js');
+} else {
+    dbsearch = require('../bin/dbSearch.js');
+}
 
 const DEFAULTPATH = '/api/v1/players/';
 const PLATFORM = "/?platform=uplay";

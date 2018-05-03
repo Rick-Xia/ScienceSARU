@@ -3,11 +3,6 @@ const R6USERFILENAME = "./localdata/r6users.json";
 
 let USERSFILE = fs.readFileSync(R6USERFILENAME), USERS = JSON.parse(USERSFILE);
 
-function ReadDB() {
-    let USERSFILE = fs.readFileSync(R6USERFILENAME);
-    let USERS = JSON.parse(USERSFILE);
-}
-
 module.exports.get = ( id ) => {
     return USERS.hasOwnProperty(id)? USERS[id] : "";
 }

@@ -9,9 +9,12 @@ const MONGOURL = 'mongodb://localhost:27017/SARU';
 const ERRORMSG = "It's so busy here...I need money for the Antarctica anyway!";
 const PREFIX = botconfig.prefix;
 
+let MONGOCONNECT = false;
+
 const mongoConnect = mongoose.connect(MONGOURL);
 mongoConnect.then((db) => {
-    console.log('Connected correctly to MongoDB');
+    console.log(`Connected correctly to MongoDB`);
+    MONGOCONNECT = true;
     // mongoose.connection.db.listCollections().toArray(function(err, names) {
     // if (err) {
     //     console.log(err);
@@ -22,7 +25,7 @@ mongoConnect.then((db) => {
     //     });
     // }
     // });
-}, (err) => { console.log(err); });
+}, (err) => { console.log(mongoConnect); MONGOCONNECT = false; });
 
 const bot = new Discord.Client({disableEveryone: true});
 bot.commands = new Discord.Collection();
