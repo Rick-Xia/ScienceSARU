@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const https = require('https');
+const botconfig = require('../localdata/botconfig.json');
 
 const timeHelper = require('../bin/secToHMS.js');
 const mongoose = require('mongoose');
@@ -14,6 +15,7 @@ if ( mongoose.connection.readyState ) {
 const DEFAULTPATH = '/api/v1/players/';
 const PLATFORM = "/?platform=uplay";
 const PANELCOLOR = 0x00AE86;
+const PREFIX = botconfig.prefix;
 
 let OPTIONS = {
     host: 'api.r6stats.com',
@@ -30,7 +32,7 @@ const ignoredAttri = ['has_played', 'bullets_fired', 'bullets_hit'];
 /*
     Helper function that automaticaly load stat from json object
  */
-function collectStats(stats, part, embed) {
+function collectStats ( stats, part, embed ) {
     let collect = stats[part];
     let detail = "";
 
@@ -49,7 +51,7 @@ function collectStats(stats, part, embed) {
     embed.addField(part.toUpperCase(), detail, true);
 }
 
-function queryStats ( id, message, args ) {
+function queryStats ( id, next ) {
 
     OPTIONS.path = DEFAULTPATH + id + PLATFORM;
 
@@ -59,7 +61,7 @@ function queryStats ( id, message, args ) {
         console.log(OPTIONS.host + ':' + res.statusCode);
 
         if ( res.statusCode !== 200 ) {
-            return message.channel.send("No results found...");
+            return next(res.statusCode);
         }
 
         /*
@@ -104,15 +106,8 @@ function queryStats ( id, message, args ) {
             collectStats(stats, "casual", detailEmbed);
             collectStats(stats, "ranked", detailEmbed);
             collectStats(stats, "overall", detailEmbed);
-            
-            if ( args[1] === "share" || args[1] === "s" ) {
-                message.channel.send(overallEmbed);
-                message.channel.send(detailEmbed);
-            } else {
-                message.author.send(overallEmbed)
-                .then(message.author.send(detailEmbed))
-                .then(message.channel.send("Found yours~ Take a look at your PM"));
-            }
+
+            next( 0, overallEmbed, detailEmbed );
         });
     });
 
@@ -123,33 +118,59 @@ function queryStats ( id, message, args ) {
     req.end();
 }
 
-module.exports.run = async (bot, message, args) => {
-    let id;
+module.exports.run = async ( bot, message, args ) => {
 
-    /*
-        If no id provided, try using the binded id of the user
-     */
+    let share = false;
+
+    if ( args.length > 0 && args[0].charAt(0) === PREFIX ) {
+        if ( args[0].slice(1) === "s" || args[0].slice(1) === "share" ) {
+            share = true;
+        }
+        args.shift();
+    }
+
     switch( args.length ) {
         case 0:
-            dbsearch.get( message.author.id, (result) => {
+            dbsearch.get( message.author.id, ( result ) => {
                 if ( result ) {
-                    id = result;
-                    message.channel.send(`Querying using your binded ID \`${id}\``);
-                    queryStats( id, message, args );
+                    message.channel.send(`Querying using your binded ID \`${result}\``);
+                    queryStats(result, ( err, overall, detail ) => {
+                        if (err) return message.channel.send("No results found...");
+
+                        if (share) {
+                            message.channel.send(overall);
+                            message.channel.send(detail);
+                        } else {
+                            message.author.send(overall)
+                            .then(message.author.send(detail));
+                        }
+                    });
                 }
                 else {
                     return message.channel.send("What's your ID? \`-r6 [uplayID]\`")
                         .then(message.channel.send("Or you can bind your uplayid using \`-setUplay [uplayID]\`"));
                 }
             });
+            console.log(`which one faster?`);
             break;
+
         case 1:
-            id = args[0];
-            queryStats(id, message, args);
+            queryStats( args[0], ( err, overall, detail ) => {
+                if (err) return message.channel.send("No results found...");
+
+                if (share) {
+                    message.channel.send(overall);
+                    message.channel.send(detail);
+                } else {
+                    message.author.send(overall)
+                    .then(message.author.send(detail));
+                }
+            });
             break;
         default:
             return message.channel.send("Please input correct id \`-r6 [uplayID]`");
     }
+
 }
 
 module.exports.help = {
