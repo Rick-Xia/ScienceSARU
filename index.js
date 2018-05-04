@@ -9,15 +9,10 @@ const MONGOURL = 'mongodb://localhost:27017/SARU';
 const ERRORMSG = "It's so busy here...I need money for the Antarctica anyway!";
 const PREFIX = botconfig.prefix;
 
-const mongoConnect = mongoose.connect(MONGOURL);
-mongoConnect.then((db) => {
-    console.log(`Connected correctly to MongoDB`);
-}, (err) => { console.log(`Connection Failed`) });
-
 const bot = new Discord.Client({disableEveryone: true});
 bot.commands = new Discord.Collection();
 
-fs.readdir("./cmd/", (err, files) => {
+fs.readdir("./cmd/", async (err, files) => {
     if (err) console.log(err);
 
     let jsfile = files.filter(f => f.split(".").pop() === "js");
@@ -26,11 +21,18 @@ fs.readdir("./cmd/", (err, files) => {
         return;
     }
 
+    const mongoConnect = await mongoose.connect(MONGOURL)
+    .then((db) => {
+        console.log(`Connected to MongoDB SUCCESS`);
+    }, (err) => { console.log(`Connection to MongoDB FAIL`) });
+
     jsfile.forEach((f, i) => {
         let props = require(`./cmd/${f}`);
         console.log(`${f} loaded!`);
         bot.commands.set(props.help.name, props);
     });
+
+    console.log(`ALL CMD LOADED!`);
 });
 
 bot.on("ready", async () => {

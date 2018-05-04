@@ -3,8 +3,6 @@ const R6ids = require('../models/r6ids');
 
 module.exports.get = ( id ) => {
 
-    console.log(`hit Mongo db`);
-
     return new Promise((resolve, reject) => {
         R6ids.findOne({ discordID: id }, (err, user) => {
             if (err) reject(err);

@@ -5,8 +5,6 @@ let USERSFILE = fs.readFileSync(R6USERFILENAME), USERS = JSON.parse(USERSFILE);
 
 module.exports.get = ( id ) => {
 
-    console.log(`hit JSON db`);
-
     return new Promise((resolve, reject) => {
         
         if ( USERS.hasOwnProperty(id) ) {

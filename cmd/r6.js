@@ -5,12 +5,7 @@ const botconfig = require('../localdata/botconfig.json');
 const timeHelper = require('../bin/secToHMS.js');
 const mongoose = require('mongoose');
 
-let db;
-if ( mongoose.connection.readyState ) {
-    db = require('../bin/mongodbSearch.js');
-} else {
-    db = require('../bin/dbSearch.js');
-}
+let db = ( mongoose.connection.readyState )? require('../bin/mongodbSearch.js') : require('../bin/dbSearch.js');
 
 const DEFAULTPATH = '/api/v1/players/';
 const PLATFORM = "/?platform=uplay";
@@ -63,22 +58,25 @@ module.exports.run = async ( bot, message, args ) => {
 
     switch( args.length ) {
         case 0:
-            await db.get( message.author.id )
-                .then((result) => {
-                    message.channel.send(`Querying using your binded ID \`${result}\``);
-                    queryId = result;
-                })
+            queryId = await db.get( message.author.id )
                 .catch((err) => {
-                    return message.channel.send("What's your ID? \`-r6 [uplayID]\`")
-                            .then(message.channel.send("Or you can bind your uplayid using \`-setUplay [uplayID]\`"));
+                    message.channel.send("What's your ID :)? You can tell me using:")
+                    .then(message.channel.send(` * \`-r6 [uplayID]\` to directly tell me`)
+                        .then(message.channel.send(` * \`-setUplay [uplayID]\` to register your default Uplay id`)));
                 });
+
+            if (queryId) {
+                message.channel.send(`Querying using your binded ID \`${queryId}\``);
+            }
+            else return;
+
             break;
 
         case 1:
             queryId = args[0];
             break;
         default:
-            return message.channel.send("Please input correct id \`-r6 [uplayID]`");
+            return message.channel.send("Please input your correct id \`-r6 [uplayID]`");
     }
 
     OPTIONS.path = DEFAULTPATH + queryId + PLATFORM;
