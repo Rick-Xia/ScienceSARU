@@ -3,7 +3,7 @@
 // Stroing Destination: ~/localdata/R6operators.json
 // Invoked when new season starts (when an unexisted op is queryed)
 
-function update() {
+async function update() {
 
 }
 

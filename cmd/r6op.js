@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const https = require('https');
+const operatorPics = require('../localdata/R6operators.json')
 
 const mongoose = require('mongoose');
 let db = ( mongoose.connection.readyState )? require('../bin/mongodbSearch.js') : require('../bin/dbSearch.js');
@@ -105,6 +106,7 @@ module.exports.run = async (bot, message, args) => {
     }
 
     OPTIONS.path = DEFAULTPATH + queryId + OPERATOR + PLATFORM;
+    console.log(OPTIONS.path);
 
     let req = https.request(OPTIONS, (res) => {
         let data = '';
@@ -133,9 +135,9 @@ module.exports.run = async (bot, message, args) => {
             let atkOps = ops.mpATK, defOps = ops.mpDEF;
 
             let attackEmbed = new Discord.RichEmbed()
-            // .setAuthor(`${player.username}@${player.platform==="uplay"? "PC" : player.platform} - OVERALL STATS`, "https://i.imgur.com/uwf9FpF.jpg")
-            // .setColor(PANELCOLOR)
-            // .setThumbnail(`https://ubisoft-avatars.akamaized.net/${player.ubisoft_id}/default_146_146.png`)
+            .setAuthor(`${queryId}@"PC" - MOST USED OP`, "https://i.imgur.com/uwf9FpF.jpg")
+            .setColor(PANELCOLOR)
+            .setThumbnail(operatorPics[(atkOps.operator.name).toLowerCase()].badge)
             // .addField("KILL", casual.kills+ranked.kills, true)
             // .addField("DEATH", casual.deaths+ranked.deaths, true)
             // .addField("K/D", ((casual.kills+ranked.kills)/(casual.deaths+ranked.deaths)).toFixed(3), true)
