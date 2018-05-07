@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const https = require('https');
-//const dbsearch = require('../bin/dbSearch.js');
+
 const mongoose = require('mongoose');
 let db = ( mongoose.connection.readyState )? require('../bin/mongodbSearch.js') : require('../bin/dbSearch.js');
 const secToHMS = require('../bin/secToHMS.js');
@@ -45,8 +45,8 @@ function collectStats(stats, part, embed) {
 }
 
 /*
-    Helper functions that find the operator in both atk and def that
-     the user played the most
+     Helper functions that find the operator in both atk and def that
+    the user played the most
  */
 function findMostPlayedOps(records) {
     let retOps = { 
