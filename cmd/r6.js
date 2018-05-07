@@ -65,9 +65,7 @@ module.exports.run = async ( bot, message, args ) => {
                         .then(message.channel.send(` * \`-setUplay [uplayID]\` to register your default Uplay id`)));
                 });
 
-            if (queryId) {
-                message.channel.send(`Querying using your binded ID \`${queryId}\``);
-            }
+            if (queryId) message.channel.send(`Querying using your binded ID \`${queryId}\``);
             else return;
 
             break;
