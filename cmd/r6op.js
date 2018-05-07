@@ -132,12 +132,7 @@ module.exports.run = async (bot, message, args) => {
             let ops = findMostPlayedOps(records);
             let atkOps = ops.mpATK, defOps = ops.mpDEF;
 
-            console.log(`most played atk op is ${JSON.stringify(atkOps)} and def op is ${JSON.stringify(defOps)}`);
-
-            /*
-                Panel for overall stats
-             */
-            // let overallEmbed = new Discord.RichEmbed()
+            let attackEmbed = new Discord.RichEmbed()
             // .setAuthor(`${player.username}@${player.platform==="uplay"? "PC" : player.platform} - OVERALL STATS`, "https://i.imgur.com/uwf9FpF.jpg")
             // .setColor(PANELCOLOR)
             // .setThumbnail(`https://ubisoft-avatars.akamaized.net/${player.ubisoft_id}/default_146_146.png`)
@@ -147,10 +142,9 @@ module.exports.run = async (bot, message, args) => {
             // .addField("LEVEL", stats.progression.level, true)
             // .addField("WIN %", (casual.wins/(casual.wins + casual.losses) * 100).toFixed(2) + "%", true)
             // .addField("TIME PLAYED", secondsToHms(casual.playtime), true)
+             
+            message.channel.send(attackEmbed);
 
-            // /*
-            //     Panel for detail stat (Casual & Ranked)
-            //  */
             // let detailEmbed = new Discord.RichEmbed()
             // .setColor(PANELCOLOR)
             // .setTimestamp(`${player.updated_at}`)
