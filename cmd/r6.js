@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const https = require('https');
 const botconfig = require('../localdata/botconfig.json');
 
-const timeHelper = require('../bin/secToHMS.js');
+const timeHelper = require('../bin/timehelper.js');
 const mongoose = require('mongoose');
 
 let db = ( mongoose.connection.readyState )? require('../bin/mongodbSearch.js') : require('../bin/dbSearch.js');

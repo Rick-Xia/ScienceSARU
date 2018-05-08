@@ -4,7 +4,8 @@ const operatorPics = require('../localdata/R6operators.json')
 
 const mongoose = require('mongoose');
 let db = ( mongoose.connection.readyState )? require('../bin/mongodbSearch.js') : require('../bin/dbSearch.js');
-const secToHMS = require('../bin/secToHMS.js');
+
+const timeHelper = require('../bin/timehelper.js');
 
 const DEFAULTPATH = '/api/v1/players/';
 const OPERATOR = '/operators'
@@ -35,7 +36,7 @@ function collectStats(stats, part, embed) {
 
         let val = collect[attri];
         if ( attri === "playtime" ) {
-            val = secondsToHms(val);
+            val = timeHelper.secToHMS(val);
         }
         attri = attri.replace(/_/g, ' ');
         attri = attri.charAt(0).toUpperCase()+attri.slice(1);
@@ -106,7 +107,6 @@ module.exports.run = async (bot, message, args) => {
     }
 
     OPTIONS.path = DEFAULTPATH + queryId + OPERATOR + PLATFORM;
-    console.log(OPTIONS.path);
 
     let req = https.request(OPTIONS, (res) => {
         let data = '';
@@ -135,15 +135,20 @@ module.exports.run = async (bot, message, args) => {
             let atkOps = ops.mpATK, defOps = ops.mpDEF;
 
             let attackEmbed = new Discord.RichEmbed()
-            .setAuthor(`${queryId}@"PC" - MOST USED OP`, "https://i.imgur.com/uwf9FpF.jpg")
+            .setAuthor(`${queryId}@PC - MOST USED OP`, "https://i.imgur.com/uwf9FpF.jpg")
             .setColor(PANELCOLOR)
+            .setTitle(`Most played attack operator: ${atkOps.operator.name}`)
             .setThumbnail(operatorPics[(atkOps.operator.name).toLowerCase()].badge)
+            .setImage(operatorPics[(atkOps.operator.name).toLowerCase()].figure.small)
+            .addField("TIME PLAYED", timeHelper.secToHMS(atkOps.stats.playtime), true)
+            .addField("Round Played", atkOps.stats.played, true)
+            .addField("WIN %", (atkOps.stats.wins/(atkOps.stats.wins + atkOps.stats.losses) * 100).toFixed(2) + "%", true)
+            .addField("K/D", (atkOps.stats.kills/atkOps.stats.deaths).toFixed(3), true)
+            .addField("Kill per Round", (atkOps.stats.kills/atkOps.stats.played).toFixed(3), true)
+            .addField("Death per Round", (atkOps.stats.deaths/atkOps.stats.played).toFixed(3), true)
+
             // .addField("KILL", casual.kills+ranked.kills, true)
             // .addField("DEATH", casual.deaths+ranked.deaths, true)
-            // .addField("K/D", ((casual.kills+ranked.kills)/(casual.deaths+ranked.deaths)).toFixed(3), true)
-            // .addField("LEVEL", stats.progression.level, true)
-            // .addField("WIN %", (casual.wins/(casual.wins + casual.losses) * 100).toFixed(2) + "%", true)
-            // .addField("TIME PLAYED", secondsToHms(casual.playtime), true)
              
             message.channel.send(attackEmbed);
 
