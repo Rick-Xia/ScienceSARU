@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const R6ids = require('../models/r6ids');
+const R6ids = require('../../models/r6ids');
 
 module.exports.get = ( id ) => {
 

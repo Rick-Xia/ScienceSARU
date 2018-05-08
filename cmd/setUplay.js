@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const botconfig = require('../localdata/botconfig.json');
 const PREFIX = botconfig.prefix;
 
-let db = ( mongoose.connection.readyState )? require('../bin/mongodbSearch.js') : require('../bin/dbSearch.js');
+let db = ( mongoose.connection.readyState )? require('./helper/mongodbSearch.js') : require('./helper/dbSearch.js');
 
 module.exports.run = async (bot, message, args) => {
 

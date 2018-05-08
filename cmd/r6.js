@@ -2,13 +2,14 @@ const Discord = require("discord.js");
 const https = require('https');
 const botconfig = require('../localdata/botconfig.json');
 
-const timeHelper = require('../bin/timehelper.js');
 const mongoose = require('mongoose');
+let db = ( mongoose.connection.readyState )? require('./helper/mongodbSearch.js') : require('./helper/dbSearch.js');
 
-let db = ( mongoose.connection.readyState )? require('../bin/mongodbSearch.js') : require('../bin/dbSearch.js');
+const timeHelper = require('./helper/timehelper.js');
 
 const DEFAULTPATH = '/api/v1/players/';
 const PLATFORM = "/?platform=uplay";
+
 const PANELCOLOR = 0x00AE86;
 const PREFIX = botconfig.prefix;
 

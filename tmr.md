@@ -4,6 +4,11 @@ get inspired
 * prettify stats panel - OK
 * load more stat on panel - OK
 	- stats for operators
+		* No arg (default): display most played atk & def op
+		* With arg:
+			- arg=-all: display all ops
+			- arg=-{atk, def}: display all ops in that role
+			- arg=-[opNAME]: display stats of that op
 * storing user's uplay id (default id) - OK
 	- relative dir - OK
 	- delete binding - OK
@@ -11,8 +16,8 @@ get inspired
 	- Use userid instead of username - OK
 	- response to history query
 	- support all platforms
-* Switch storage file to MongoDB
-	- File path detection to decided which system to use
+* Switch storage file to MongoDB - OK
+	- File path detection to decided which system to use - OK
 
 * cosplay nsfw (japanese)
 * video search

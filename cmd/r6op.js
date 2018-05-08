@@ -3,9 +3,9 @@ const https = require('https');
 const operatorPics = require('../localdata/R6operators.json')
 
 const mongoose = require('mongoose');
-let db = ( mongoose.connection.readyState )? require('../bin/mongodbSearch.js') : require('../bin/dbSearch.js');
+let db = ( mongoose.connection.readyState )? require('./helper/mongodbSearch.js') : require('./helper/dbSearch.js');
 
-const timeHelper = require('../bin/timehelper.js');
+const timeHelper = require('./helper/timehelper.js');
 
 const DEFAULTPATH = '/api/v1/players/';
 const OPERATOR = '/operators'
