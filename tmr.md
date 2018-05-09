@@ -24,3 +24,5 @@ get inspired
 
 * storing our meigen
 * daily annuncement
+
+working on learning React, so HARD! let me push sth for today as on the other side I didnt make any progress
