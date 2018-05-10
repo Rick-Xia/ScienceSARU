@@ -28,3 +28,4 @@ get inspired
 working on learning React, so HARD! let me push sth for __today__ as on the other side I didnt make any progress
 Deploying babel, webpack, and finally switched to create-react-app in the other side.
 Going to change the project name to Mahjoint
+Dynamically generated decks for allTile and handTile, trying to add listener to them
