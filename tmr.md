@@ -29,3 +29,4 @@ working on learning React, so HARD! let me push sth for __today__ as on the othe
 Deploying babel, webpack, and finally switched to create-react-app in the other side.
 Going to change the project name to Mahjoint
 Dynamically generated decks for allTile and handTile, trying to add listener to them
+Listener added. modified the whole structure of this SPA. going to work on evaluation sections and/or deploying Redux
