@@ -82,6 +82,23 @@ function findMostPlayedOps(records) {
     return retOps; 
 }
 
+function createOpEmbed( queryId, op ) {
+    let opEmbed = new Discord.RichEmbed()
+    .setAuthor(`${queryId}@PC - MOST USED OP`, "https://i.imgur.com/uwf9FpF.jpg")
+    .setColor(PANELCOLOR)
+    .setTitle(`Most played attack operator: ${op.operator.name}`)
+    .setThumbnail(operatorPics[(op.operator.name).toLowerCase()].badge)
+    .setImage(operatorPics[(op.operator.name).toLowerCase()].figure.small)
+    .addField("TIME PLAYED", timeHelper.secToHMS(op.stats.playtime), true)
+    .addField("Round Played", op.stats.played, true)
+    .addField("WIN %", (op.stats.wins/(op.stats.wins + op.stats.losses) * 100).toFixed(2) + "%", true)
+    .addField("K/D", (op.stats.kills/op.stats.deaths).toFixed(3), true)
+    .addField("Kill per Round", (op.stats.kills/op.stats.played).toFixed(3), true)
+    .addField("Death per Round", (op.stats.deaths/op.stats.played).toFixed(3), true);
+
+    return opEmbed;
+}
+
 module.exports.run = async (bot, message, args) => {
     let queryId;
 
@@ -145,20 +162,12 @@ module.exports.run = async (bot, message, args) => {
             .addField("WIN %", (atkOps.stats.wins/(atkOps.stats.wins + atkOps.stats.losses) * 100).toFixed(2) + "%", true)
             .addField("K/D", (atkOps.stats.kills/atkOps.stats.deaths).toFixed(3), true)
             .addField("Kill per Round", (atkOps.stats.kills/atkOps.stats.played).toFixed(3), true)
-            .addField("Death per Round", (atkOps.stats.deaths/atkOps.stats.played).toFixed(3), true)
+            .addField("Death per Round", (atkOps.stats.deaths/atkOps.stats.played).toFixed(3), true);
 
-            // .addField("KILL", casual.kills+ranked.kills, true)
-            // .addField("DEATH", casual.deaths+ranked.deaths, true)
+            let defEmbed = createOpEmbed(defOps);
              
             message.channel.send(attackEmbed);
-
-            // let detailEmbed = new Discord.RichEmbed()
-            // .setColor(PANELCOLOR)
-            // .setTimestamp(`${player.updated_at}`)
-            // .setFooter("Recent update");
-            // collectStats(stats, "casual", detailEmbed);
-            // collectStats(stats, "ranked", detailEmbed);
-            // collectStats(stats, "overall", detailEmbed);
+            message.channel.send(defEmbed);
             
             // if ( args[1] === "share" || args[1] === "s" ) {
             //     message.channel.send(overallEmbed);

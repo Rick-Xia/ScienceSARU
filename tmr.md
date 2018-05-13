@@ -18,6 +18,7 @@ get inspired
 	- support all platforms
 * Switch storage file to MongoDB - OK
 	- File path detection to decided which system to use - OK
+	- re-connection option to MongoDB
 
 * cosplay nsfw (japanese)
 * video search
