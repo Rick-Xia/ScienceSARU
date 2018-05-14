@@ -12,4 +12,6 @@ To check its command list, type
 `-help`
 in discord
 
-Adding support for MongoDB. Planning for using 2 ways to store data: MongoDB (standard one) and JSON file (for small discord community)
+MongoDB support added. Users can now use MongoDB or JSON file for storing player data now, depending on the connection status of MongoDB (as MongoDB is always the first choice).
+
+**May 14th Update: according to the latest GDPR, the R6 API will no longer be permitted to provide/store user data after May 25th. Thus, all rainbow six seige player related functionalities will be inavailable. Let's see how the things turn out in the future**
