@@ -32,3 +32,4 @@ Going to change the project name to Mahjoint
 Dynamically generated decks for allTile and handTile, trying to add listener to them
 Listener added. modified the whole structure of this SPA. going to work on evaluation sections and/or deploying Redux
 Keep working on details of React. Now finished React courses on codeacademy.com
+Applying React programming patterns, re-configuring code.
