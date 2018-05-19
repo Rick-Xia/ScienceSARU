@@ -34,3 +34,4 @@ Listener added. modified the whole structure of this SPA. going to work on evalu
 Keep working on details of React. Now finished React courses on codeacademy.com
 Applying React programming patterns, re-configuring code.
 Going to make the algorithm for evaluating points, and apply style to components
+Working on adding combination tiles
